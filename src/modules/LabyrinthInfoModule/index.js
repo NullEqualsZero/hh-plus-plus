@@ -117,9 +117,10 @@ class LabyrinthInfoModule extends CoreModule {
                 // No relics for the opponent
                 return
             }
-            const girl_id = parseInt($target.attr('src').match(/girls\/(\d+)/)[1])
-            const {battle_caracs, element_data: {type: girl_element}} = JSON.parse($target.attr('data-new-girl-tooltip'))
+            const {id_girl, battle_caracs, element_data: {type: girl_element}} = JSON.parse($target.attr('data-new-girl-tooltip'))
             if (!battle_caracs) {return}
+            const girl_id = id_girl || parseInt($target.closest('.team-member-container').attr('data-girl-id') || $target.closest('.harem-girl-container').attr('id_girl') || $target.closest('.girl-container').attr('id'))
+            if (!girl_id) {return}
             const bonus_caracs = {}
 
             relics.forEach(({identifier, bonus, girl}) => {

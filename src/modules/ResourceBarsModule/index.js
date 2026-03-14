@@ -231,7 +231,7 @@ class ResourceBarsModule extends CoreModule {
             {type: 'challenge', feature: 'leagues', iconClass: 'hudChallenge_mix_icn', shortcutLink: '/leagues.html'},
             {type: 'worship', feature: 'pantheon', iconClass: 'hudWorship_mix_icn', shortcutLink: '/pantheon.html'},
             {type: 'reply', feature: 'messenger', iconClass: 'energy_reply_icn', shortcutLink: '/messenger.html'},
-            {type: 'drill', feature: 'pantheon', iconClass: 'hudPenta_drill_mix_icn', shortcutLink: '/penta-drill-arena.html'},
+            {type: 'drill', feature: 'pentaDrill', iconClass: 'hudPenta_drill_mix_icn', shortcutLink: '/penta-drill-arena.html'},
         ]
 
         let $elemToAppendAfter = $('header .energy_counter[type=fight]')

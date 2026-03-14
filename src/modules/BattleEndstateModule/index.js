@@ -157,6 +157,16 @@ class BattleEndstateModule extends CoreModule {
         })
 
         Helpers.onAjaxResponse(/action=do_battles_(labyrinth|world_boss|penta_drill)/i, (response) => {
+            if (~location.search.search(/number_of_battles=\d+/i)) {
+                const nBattlesCount = parseInt(location.search.match(/number_of_battles=(\d+)/i)[1], 10)
+                if ($.isNumeric(nBattlesCount)) {
+                    const {Hero} = window.shared ? window.shared : window
+                    if (Helpers.isCurrentPage('penta-drill-battle')) {
+                        Hero.update('energy_drill', Hero.energies.drill.amount - nBattlesCount, false)
+                    }
+                }
+            }
+
             Helpers.doWhenSelectorAvailable('#new-battle-skip-btn, .skip-buttons-container', () => {
                 // $('#new-battle-skip-btn').click(() => {
                     // TODO show end state of battle

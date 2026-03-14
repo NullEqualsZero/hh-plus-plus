@@ -6,15 +6,6 @@ import styles from './styles.lazy.scss'
 
 const MODULE_KEY = 'rewardShards'
 
-const ID_FROM_URL_REGEX = /(?<id>[0-9]+)\/ico[0-9](-[0-9]+x)?.[a-z]+(\?v=[0-9]+)?$/i
-
-const extractIdFromUrl = (url) => {
-    const matches = url.match(ID_FROM_URL_REGEX)
-    if (!matches || !matches.groups) {return}
-
-    const {groups: {id}} = matches
-    return id
-}
 const makeShardCount = ({shards, name, className}) => `<div class="script-shard-count ${className ? className : ''}" shards="${shards}" name="${name}" shards-tooltip><span class="shard_icn"></span> ${shards}</div>`
 
 class RewardShardsModule extends CoreModule {
@@ -63,6 +54,7 @@ class RewardShardsModule extends CoreModule {
     async displayOnPreBattle() {
         const $girlsReward = $('.slot.girl_ico')
         if (!$girlsReward.length) {return}
+        const rewards = $girlsReward.data('rewards')
         const girlDictionary = await Helpers.getGirlDictionary()
 
         const annotate = ($girlsReward) => {
@@ -73,9 +65,9 @@ class RewardShardsModule extends CoreModule {
                 if (!$img.length) {return}
                 const url = $img.attr('src')
 
-                const id = extractIdFromUrl(url)
+                const id = rewards.find(girl => girl.ico === url)?.id_girl
                 if (!id) {return}
-                const girl = girlDictionary.get(id)
+                const girl = girlDictionary.get(`${id}`)
                 const name = girl?.name || '????'
                 const shards = girl?.shards !== undefined ? girl.shards : '?'
 
@@ -119,15 +111,16 @@ class RewardShardsModule extends CoreModule {
     displayOnPachinko() {
         const annotate = async () => {
             const girlDictionary = await Helpers.getGirlDictionary()
+            const rewards = $('.pachinko-tooltip.girls_reward.reward-ico.girl_shards:hover').data('rewards')
             $('.rewards_tooltip .girl_ico').each((i, el) => {
                 const $el = $(el)
                 const $img = $el.find('img')
                 if (!$img.length) {return}
                 const url = $img.attr('src')
 
-                const id = extractIdFromUrl(url)
+                const id = rewards.find(girl => girl.ico === url)?.id_girl
                 if (!id) {return}
-                const girl = girlDictionary.get(id)
+                const girl = girlDictionary.get(`${id}`)
                 const name = girl?.name || '????'
                 const shards = girl?.shards !== undefined ? girl.shards : '?'
 
@@ -136,7 +129,7 @@ class RewardShardsModule extends CoreModule {
         }
 
         new MutationObserver(() => {
-            if ($('.rewards_tooltip .girl_ico').length) {
+            if ($('.rewards_tooltip .girl_ico').length && $('.pachinko-tooltip.girls_reward.reward-ico.girl_shards:hover').length) {
                 annotate()
             }
         }).observe(document.body, {childList: true})
@@ -146,15 +139,16 @@ class RewardShardsModule extends CoreModule {
         const girlDictionary = await Helpers.getGirlDictionary()
 
         const annotate = (selector) => {
+            const rewards = $('.slot.girl_ico').data('rewards')
             $(selector).each((i, el) => {
                 const $el = $(el)
                 const $img = $el.find('img')
                 if (!$img.length) {return}
                 const url = $img.attr('src')
 
-                const id = extractIdFromUrl(url)
+                const id = rewards.find(girl => girl.ico === url)?.id_girl
                 if (!id) {return}
-                const girl = girlDictionary.get(id)
+                const girl = girlDictionary.get(`${id}`)
                 const name = girl?.name || '????'
                 const shards = girl?.shards !== undefined ? girl.shards : '?'
 

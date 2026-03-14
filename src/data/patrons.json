@@ -11,27 +11,6 @@
         ]
     },
     {
-        "name": "Darkyz",
-        "tier": "gold",
-        "flairs": [
-            {
-                "game": "HH",
-                "platform": ".com",
-                "id": "124704"
-            },
-            {
-                "game": "CxH",
-                "platform": ".com",
-                "id": "29164"
-            },
-            {
-                "game": "PSH",
-                "platform": ".com",
-                "id": "1851"
-            }
-        ]
-    },
-    {
         "name": "sliqguy",
         "tier": "silver",
         "flairs": [

@@ -82,7 +82,6 @@ class UpgradeQuickNavModule extends CoreModule {
         $('.script-quicknav-prev, .script-quicknav-next').remove()
         const {girl: {id_girl}} = window
         if (!filteredGirlIds.length || (filteredGirlIds.length === 1 && filteredGirlIds[0] === id_girl)) {return}
-        const {replaceImageSources} = window.shared ? window.shared.webp_utilities : window
 
         const currentIndex = filteredGirlIds.indexOf(id_girl)
         const previousGirlId = filteredGirlIds.at(currentIndex > -1 ? (currentIndex-1) % filteredGirlIds.length : -1)
@@ -93,7 +92,7 @@ class UpgradeQuickNavModule extends CoreModule {
 
         const buildAvatarHtml = (id, {pose}, className, resource) => {
             const imgType = resource == 'equipment' ? 'ico' : 'ava'
-            const girlImage = `<img girl-${imgType}-src="${Helpers.getCDNHost()}/pictures/girls/${id}/${imgType}${pose}.png"/>`
+            const girlImage = `<img src="${Helpers.getCDNHost()}/pictures/girls/${id}/${imgType}${pose}.png"/>`
             return $(`<a class="script-quicknav-${className}" resource="${resource}" href="${Helpers.getHref(`/girl/${id}?resource=${resource}`)}">${girlImage}</a>`)
         }
         RESOURCE_TYPES.forEach((resource) => {
@@ -111,8 +110,6 @@ class UpgradeQuickNavModule extends CoreModule {
                 $(`#${resource} .girl-avatar`).prepend($prev).append($next)
             }
         })
-
-        replaceImageSources()
     }
 
     getFilteredGirlList () {

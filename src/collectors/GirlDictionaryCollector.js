@@ -18,7 +18,7 @@ const collectFromGirlList = async (girl_list, {trusted=true, could_own=true, bas
     Object.values(girl_list).forEach((girl) => {
         const {id_girl, name} = girl
         if (id_girl && name) {
-            const {own, is_owned, shards, rarity, graded2, nb_grades, class: girl_class, element, element_data, id_role, figure, position_img, eye_color1, eye_color2, hair_color1, hair_color2, zodiac, grade_offset_values, caracs, preview, grade_skins_data} = girl
+            const {own, is_owned, shards, rarity, graded2, nb_grades, class: girl_class, element, element_data, id_role, figure, position_img, eye_color1, eye_color2, hair_color1, hair_color2, zodiac, grade_offset_values, caracs, preview, grade_skins_data, images} = girl
             const has_girl = could_own && (own !== undefined ? own : (is_owned !== undefined ? is_owned : shards == 100))
 
             const girl_data = { // Data for owned or unowned girls
@@ -58,6 +58,13 @@ const collectFromGirlList = async (girl_list, {trusted=true, could_own=true, bas
                     return {id_girl_grade_skin, num_order, girl_grade_num, grade_skin_name, shards_count, is_selected}
                 })
                 // console.log(girl_data.skins)
+            }
+            if (images) {
+                const image_ids = {
+                    ava: images.ava.map(ava => ava.match(/\/\d+-(.*)\./)[1]),
+                    ico: images.ico.map(ico => ico.match(/\/\d+-(.*)\./)[1])
+                }
+                // console.log(image_ids)
             }
             if (has_girl && trusted) { // player mutable
                 const {fav_graded, graded, affection, xp, level, level_cap, awakening_level, salary, date_added, armor, skill_tiers_info, skills, skill_trait} = girl
