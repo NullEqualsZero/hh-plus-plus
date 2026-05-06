@@ -113,7 +113,13 @@ class SimHelpers {
     }
 
     static getSkillPercentage(team, id) {
-        return 1 + (team.girls.map(e => e.skills[id]?.skill.percentage_value ?? 0).reduce((a, b) => a+b, 0) / 100);
+        return 1 + (team.girls.map(e => {
+            // Safety check: ensure 'skills' exists and the specific skill index exists
+            if (e.skills && e.skills[id] && e.skills[id].skill) {
+                return e.skills[id].skill.percentage_value ?? 0;
+            }
+            return 0;
+        }).reduce((a, b) => a+b, 0) / 100);
     }
 }
 
